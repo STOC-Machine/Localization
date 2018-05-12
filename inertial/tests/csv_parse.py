@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import sys
 import csv
 from geopy import distance
@@ -58,8 +59,10 @@ class data_meters():
         # print self.meter_data
 
     def write_data(self):
-        with open('python-latlong.csv', 'wb') as outfile:
+        headers = ['lat', 'long', 'alt', 'pitch', 'roll', 'yaw', 'time']
+        with open('python-latlong.csv', 'w') as outfile:
             writer = csv.writer(outfile)
+            writer.writerow(headers)
             writer.writerows(self.degree_data)
 
 print(sys.argv)
