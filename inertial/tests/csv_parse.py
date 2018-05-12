@@ -41,29 +41,27 @@ class data_meters():
         
         self.write_data()
 
+    # Note: distance calculator has error of +/- 0.5%
+    def get_meters(self):
         # print self.degree_data
-        # Note: distance calculator has error of +/- 0.5%
+        result_data = []
         for row in self.degree_data:
             lat = (row[0], 0)
             long = (0, row[1])
             print("lat {0} long {1}".format(lat, long))
+
             lat_meters = distance.distance((0,0), lat).meters
             long_meters = distance.distance((0,0), long).meters
-            # print(row[3])
-            # print([lat_meters, long_meters, row[2], row[3]])
-            if len(self.meter_data) > 0:
-                pass
-                # print(row[2] - self.meter_data[-1][2])
-            self.meter_data.append([lat_meters, long_meters, row[2], row[3]])
 
-        # print self.meter_data
+            self.result_data.append([lat_meters, long_meters, row[2], row[3]])
+        self.meter_data = result_data
 
     def write_data(self):
         headers = ['lat', 'long', 'alt', 'pitch', 'roll', 'yaw', 'time']
         with open('python-latlong.csv', 'w') as outfile:
             writer = csv.writer(outfile)
             writer.writerow(headers)
-            writer.writerows(self.degree_data)
+            writer.writerows(self.meter_data)
 
 print(sys.argv)
 thing = data_meters()
